@@ -5,14 +5,14 @@ import Image from 'next/image'
 import CloudPractitioner from '../public/aws-certified-cloud-practitioner.png'
 import Widget from '../components/GlassPane'
 import GlassButton from '../components/GlassButton'
-import hex_inverse_bw from '../lib/InvHexColor'
 import Wallpaper from '../components/Wallpaper'
 import { Random } from 'unsplash-js/dist/methods/photos/types'
 import { createApi } from 'unsplash-js'
 
 
 interface HomeProps {
-    wallpapers: Random[];
+    wallpapers: Random[],
+    quote: string
 }
 
 export const getStaticProps: GetStaticProps = async (context) => {
@@ -28,17 +28,18 @@ export const getStaticProps: GetStaticProps = async (context) => {
 
     return {
         props: {
-            wallpapers: result.response as Random[] ? result.response : [result.response]
+            wallpapers: result.response as Random[] ? result.response : [result.response],
+            quote: (await (await fetch('https://api.github.com/zen')).text())
         },
         revalidate: 86400
     }
 }
-const Home: NextPage<HomeProps> = ({ wallpapers }) => {
+const Home: NextPage<HomeProps> = ({ wallpapers, quote }) => {
     return (
         <>
             <Wallpaper wallpaper={wallpapers[0]}>
-                <div className='container text-center'>
-                    <h1 className='display-1' style={{ textShadow: '0 0 2em black' }}>Matthew McCall</h1>
+                <div className='container text-center' style={{ textShadow: '0 0 2em white' }}>
+                    <h1 className='display-1'>Matthew McCall</h1>
                     <div className="d-flex flex-row flex-wrap justify-content-center">
                         {
                             [
@@ -60,7 +61,7 @@ const Home: NextPage<HomeProps> = ({ wallpapers }) => {
                             )
                         }
                     </div>
-                    <p className='lead'>Always onto something...</p>
+                    <p className='lead'>{quote}</p>
                 </div>
             </Wallpaper>
             <div className='bg-light text-dark p-5'>
