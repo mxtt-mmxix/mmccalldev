@@ -3,6 +3,7 @@ import VCenter from '../components/VCenter'
 import Image from 'next/image'
 
 import CloudPractitioner from '../public/aws-certified-cloud-practitioner.png'
+import RensselaerSeal from '../public/RF0010-04 Small Seal-RGB-White.png'
 import Widget from '../components/GlassPane'
 import GlassButton from '../components/GlassButton'
 import Wallpaper from '../components/Wallpaper'
@@ -46,9 +47,9 @@ export const getStaticProps: GetStaticProps = async (context) => {
             repos: (await octokit.rest.repos.listForUser({
                 username: 'mxtt-mmxix',
                 sort: 'updated'
-            })).data
+            })).data.filter(repo => repo.archived == false)
         },
-        revalidate: 86400
+        revalidate: 3600
     }
 }
 const Home: NextPage<HomeProps> = ({ wallpapers, quote, repos }) => {
@@ -81,8 +82,8 @@ const Home: NextPage<HomeProps> = ({ wallpapers, quote, repos }) => {
                     <p className='lead'>{quote}</p>
                 </div>
             </Wallpaper>
-            <div className='bg-light text-dark p-5'>
-                <div className='container'>
+            <div className='shadow'>
+                <div className='container py-5'>
                     <h1>About Me</h1>
                     <p>My name is Matthew McCall, I am currently a C++ developer working on game engines!</p>
                     <ul>
@@ -125,24 +126,57 @@ const Home: NextPage<HomeProps> = ({ wallpapers, quote, repos }) => {
                     </div>
                 </div>
             </Wallpaper>
-            <div className='bg-light text-dark p-5'>
-                <div className='container'>
+            <div className='shadow'>
+                <div className='container py-5'>
                     <div className='row row-cols-1 row-cols-md-2'>
                         <div className='col'>
-                            <h1>Certifications</h1>
-                            <div className='d-flex flex-row'>
-                                <div className='col-3'>
-                                    <Image src={CloudPractitioner} alt="AWS Certified Cloud Practioner" />
+                            <div className='pb-3'>
+                                <h1>Certifications</h1>
+                            </div>
+                            <div className='card'>
+                                <div className='row g-0'>
+                                    <div className='col-md-4 p-4'>
+                                        <Image src={CloudPractitioner} alt="AWS Certified Cloud Practioner Badge" />
+                                    </div>
+                                    <div className='col-md-8'>
+                                        <div className='card-body'>
+                                            <h5 className='card-title'>AWS Certified Cloud Practicioner</h5>
+                                            <p className='card-text'>Issued 04 September, 2021.</p>
+                                            <a href="https://www.credly.com/badges/c769cb75-d5af-47f5-9d23-a86875acbdf0/public_url" className="btn btn-primary"><i className='bi-patch-check' /> View</a>
+                                        </div>
+                                    </div>
                                 </div>
                             </div>
                         </div>
                         <div className='col'>
-                            <h1>Education</h1>
-                            <p>Rensselaer</p>
+                            <div className='pb-3'>
+                                <h1>Education</h1>
+                            </div>
+                            <div className='card'>
+                                <div className='row g-0'>
+                                    <div className='col-md-4 p-4' style={{ backgroundColor: 'red' }}>
+                                        <Image src={RensselaerSeal} alt="AWS Certified Cloud Practioner Badge" />
+                                    </div>
+                                    <div className='col-md-8'>
+                                        <div className='card-body'>
+                                            <h5 className='card-title'>Rensselaer Polytechnic Institute</h5>
+                                            <p className='card-text'>Bachelor of Science - BS, Computer Science</p>
+                                            <p className="card-text"><small className="text-muted">June 2026</small></p>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
                         </div>
                     </div>
                 </div>
             </div>
+            <footer>
+                <div className='bg-light text-center'>
+                    <div className='container py-5'>
+                        <p>Copyright &copy; 2022 Matthew McCall.</p>
+                    </div>
+                </div>
+            </footer>
         </>
     )
 }

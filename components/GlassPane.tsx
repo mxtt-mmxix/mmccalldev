@@ -11,7 +11,7 @@ export default function GlassPane(props: { children: JSX.Element | JSX.Element[]
     }
 
     return (
-        <div style={acrylicFallback} className='acrylic rounded h-100'>
+        <div style={acrylicFallback} className='acrylic rounded h-100 shadow'>
             {props.children}
         </div>)
 }
