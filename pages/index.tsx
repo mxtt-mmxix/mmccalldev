@@ -20,6 +20,7 @@ import { useEffect, useRef } from 'react'
 import WallpaperStyles from '../components/Wallpaper/wallpaper.module.css'
 import Link from 'next/link'
 import Footer from '../components/Footer'
+import CookieUsage from '../components/CookieUsage'
 
 const unsplash = createApi({
     accessKey: process.env.UNSPLASH_ACCESS_KEY
@@ -122,7 +123,7 @@ const Home: NextPage<HomeProps> = ({ wallpapers, quote, repos }) => {
                         <button type="button" className="btn-close" data-bs-dismiss="toast" aria-label="Close"></button>
                     </div>
                     <div className="toast-body">
-                        This site uses Google Analytics to monitor the usage of this website.Please see the Google Analytics <a href='https://www.google.com/policies/privacy/partners/'>Privacy &amp; Terms</a> and <a href='https://support.google.com/analytics/answer/6004245'>Data Collection</a> policy for more information. mmccall.dev <em>does not</em> collect, store, nor sell any Personally Identifiable Information.
+                        <CookieUsage />
                     </div>
                 </div>
             </div>
