@@ -19,6 +19,8 @@
     "unsplash-js": "^7.0.15"
   },
   "devDependencies": {
+    "@types/bootstrap": "^5.1.12",
+    "@types/gtag.js": "^0.0.10",
     "@types/node": "17.0.40",
     "@types/react": "18.0.12",
     "@types/react-dom": "18.0.5",

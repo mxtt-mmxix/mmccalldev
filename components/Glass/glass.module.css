@@ -1,0 +1,26 @@
+@supports (backdrop-filter: blur(32px) saturate(180%)) {
+    .acrylic {
+        backdrop-filter: blur(32px) saturate(180%);
+        background: none !important;
+    }
+
+    .acrylic-quiet {
+        backdrop-filter: blur(32px) saturate(180%);
+        background: none !important;
+        opacity: 50%;
+    }
+}
+
+@supports (-webkit-backdrop-filter: blur(32px) saturate(180%)) {
+    .acrylic {
+        backdrop-filter: blur(32px) saturate(180%);
+        -webkit-backdrop-filter: blur(32px) saturate(180%);
+        background: none !important;
+    }
+
+    .acrylic-quiet {
+        backdrop-filter: blur(32px) saturate(180%);
+        background: none !important;
+        opacity: 50%;
+    }
+}
