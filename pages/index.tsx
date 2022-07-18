@@ -22,6 +22,9 @@ import Link from 'next/link'
 import Footer from '../components/Footer'
 import CookieUsage from '../components/CookieUsage'
 
+import CoordsDBImage from '../public/CoordsDB.png'
+import FarmDispImage from '../public/FarmDisp.png'
+
 const unsplash = createApi({
     accessKey: process.env.UNSPLASH_ACCESS_KEY
 });
@@ -31,11 +34,14 @@ const octokit = new Octokit({
 });
 
 type ListUserReposType = GetResponseDataTypeFromEndpointMethod<typeof octokit.rest.repos.listForUser>
+type GetRepoType = GetResponseDataTypeFromEndpointMethod<typeof octokit.rest.repos.get>
 
 interface HomeProps {
     wallpapers: Random[],
     quote: string,
-    repos: ListUserReposType
+    repos: ListUserReposType,
+    farmdisp: GetRepoType,
+    coords: GetRepoType
 }
 
 export const getStaticProps: GetStaticProps = async (context) => {
@@ -52,12 +58,14 @@ export const getStaticProps: GetStaticProps = async (context) => {
             repos: (await octokit.rest.repos.listForUser({
                 username: 'mxtt-mmxix',
                 sort: 'updated'
-            })).data.filter(repo => repo.archived == false)
+            })).data.filter(repo => ((repo.archived == false) && (repo.visibility === "public"))),
+            farmdisp: (await octokit.rest.repos.get({ owner: 'mxtt-mmxix', repo: 'FarmDispensers' })).data,
+            coords: (await octokit.rest.repos.get({ owner: 'mxtt-mmxix', repo: 'CoordsDB' })).data
         },
         revalidate: 3600
     }
 }
-const Home: NextPage<HomeProps> = ({ wallpapers, quote, repos }) => {
+const Home: NextPage<HomeProps> = ({ wallpapers, quote, repos, farmdisp, coords }) => {
 
     const offcanvasRef = useRef<HTMLDivElement>(null)
     const scrollSpySrc = useRef<HTMLDivElement>(null)
@@ -257,26 +265,28 @@ const Home: NextPage<HomeProps> = ({ wallpapers, quote, repos }) => {
                             <div className='my-auto'>
                                 <div className='container'>
                                     <div className='py-3'>
-                                        <h1>Paper Minecraft Server Plugin</h1>
+                                        <h1>Paper Minecraft Server Plugins</h1>
                                     </div>
                                     <div className='row row-cols-1 row-cols-md-2 g-3 pb-3'>
                                         <div id='CoordsDB' className='col'>
                                             <GlassPane fallbackColor='#e6be64'>
+                                                <Image src={CoordsDBImage} alt='CoordsDB Header Image' />
                                                 <div className='p-3'>
-                                                    <h3>CoordsDB</h3>
-                                                    <p className='lead'>A plugin for saving coordinates for the Paper Minecraft Server.</p>
+                                                    <h3>{coords.name}</h3>
+                                                    <p className='lead'>{coords.description}</p>
                                                     <p>Have you ever found yourself hitting F3 to get into that cluttered debug menu to save the coordinates of an important place such as your home base or nether portal? Maybe you have a whole album of screenshots or a Google Doc with all your coordinates. What if, there was a simpler in-game solution for saving your coordinates and getting easily all without leaving your game by using a few simple commands?</p>
-                                                    <a href="https://coords.mmccall.dev" className="btn btn-primary">Learn More <i className='bi-box-arrow-up-right' /></a>
+                                                    <a href={coords.homepage ? coords.homepage : coords.html_url} className="btn btn-primary">Learn More <i className='bi-box-arrow-up-right' /></a>
                                                 </div>
                                             </GlassPane>
                                         </div>
                                         <div id='FarmDispensers' className='col'>
                                             <GlassPane fallbackColor='#e6be64'>
+                                                <Image src={FarmDispImage} alt='Farm Dispensers Header Image' />
                                                 <div className='p-3'>
-                                                    <h3>Farm Dispensers</h3>
-                                                    <p className='lead'>This plugin for 1.19 Paper Minecraft Servers makes it so that dispensers can plant seeds on tilled soil.</p>
+                                                    <h3>{farmdisp.name}</h3>
+                                                    <p className='lead'>{farmdisp.description}</p>
                                                     <p>This plugin for 1.19 Paper Minecraft Servers makes it so that dispensers can plant seeds on tilled soil. Simply place a dispenser facing an air block above a farmland block to plant the seeds on the farmland block.</p>
-                                                    <a href="https://farmdisp.mmccall.dev" className="btn btn-primary">Learn More <i className='bi-box-arrow-up-right' /></a>
+                                                    <a href={farmdisp.homepage ? farmdisp.homepage : farmdisp.html_url} className="btn btn-primary">Learn More <i className='bi-box-arrow-up-right' /></a>
                                                 </div>
                                             </GlassPane>
                                         </div>

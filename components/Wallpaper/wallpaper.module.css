@@ -6,8 +6,8 @@
 }
 
 /* Turn off parallax scrolling for all tablets and phones. Increase/decrease the pixels if needed */
-@media only screen and (max-device-width: 768) {
+@media only screen and (max-device-width: 1024) {
     .parallax {
-        background-attachment: scroll;
+        background-attachment: scroll !important;
     }
 }

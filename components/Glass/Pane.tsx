@@ -12,7 +12,7 @@ export default function GlassPane(props: { children: JSX.Element | JSX.Element[]
     }
 
     return (
-        <div style={acrylicFallback} className={`${props.quiet ? GlassStyle['acrylic-quiet'] : GlassStyle['acrylic']} rounded h-100 shadow`}>
+        <div style={acrylicFallback} className={`${props.quiet ? GlassStyle['acrylic-quiet'] : GlassStyle['acrylic']} rounded overflow-hidden h-100 shadow`}>
             {props.children}
         </div>)
 }
